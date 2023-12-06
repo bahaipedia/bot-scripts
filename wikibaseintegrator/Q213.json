@@ -1,0 +1,57 @@
+What follows is the example json file which is used by add-articles-by-file.py. 
+Q213 represents the item number for the issue item that all these articles will 
+be organized into. You will need to rename the file according to the item number
+for the issue that you are working on. ChatGPT is helpful in quickly taking a list of
+title/author/page range details and formatting them into a file like this. 
+
+Be sure to delete these comments before trying to copy this file. Also, I will try and
+fix it later but "author": "Editorial" doesn't function correctly right now, process that
+one manually.
+
+[
+    {
+        "title": "Age of Abundance",
+        "author": "Editorial",
+        "page_range": "445-446"
+    },
+    {
+        "title": "A Divine Economy",
+        "author": "Shoghi Effendi",
+        "page_range": "447-451"
+    },
+    {
+        "title": "Spiritual and Material Healing",
+        "author": "Charles Frink",
+        "page_range": "452-457"
+    },
+    {
+        "title": "The Worlds of God",
+        "author": "Bahá’u’lláh",
+        "page_range": "458-461"
+    },
+    {
+        "title": "Life and Spiritual Laws",
+        "author": "Mamie L. Seto",
+        "page_range": "462-467"
+    },
+    {
+        "title": "The Story of Islam: IV",
+        "author": "Zia M. Bagdadi",
+        "page_range": "468-472"
+    },
+    {
+        "title": "A World Faith: Studies in the Teaching of Bahá’u’lláh: VII. This World Crisis",
+        "author": "Mountfort Mills",
+        "page_range": "472-478"
+    },
+    {
+        "title": "Book Review: Science in Defense of Liberal Religion",
+        "author": "Harry N. Howard",
+        "page_range": "479-480"
+    },
+    {
+        "title": "Book Review: Alchemy: Child of Greek Philosophy",
+        "author": "Paul Russell Anderson",
+        "page_range": "480"
+    }
+]
