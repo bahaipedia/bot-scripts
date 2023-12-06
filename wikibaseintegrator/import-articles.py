@@ -1,14 +1,12 @@
 r"""
-This file is used to import article/author pairs
- into bahaidata.org. Items that are created will
- be connected using the appropriate properties.
- New author items created will be printed to
- console since those likely need special
- handling (adding language links, adding or
- modifying the Author page on bahai.works to use
- bahaidata etc.)
+This file is used to import article/author pairs into bahaidata.org. Items that
+ are created will be connected using the appropriate properties. New author
+ items created will be printed to console since those likely need special
+ handling (adding language links, adding or  modifying the Author page on
+ bahai.works to use bahaidata etc.)
 
-Usage: python import-articles.py Q220 (representing the Issue item where articles will be organized)
+Usage: python import-articles.py Q220 (representing the Issue item where
+ articles will be organized)
 """
 
 import sys
