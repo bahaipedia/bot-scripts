@@ -1,0 +1,61 @@
+What follows is the example json file which is used by import-articles.py.
+ChatGPT is helpful in quickly taking a list of title/author/page range details 
+and formatting them into a file like this. 
+
+Author takes one or two paramaters, see below. If there is no author in the case
+of an editorial, right now that is not supported. I'll try to add it later.
+
+Be sure to delete this comment before trying to use this file.
+
+[
+  {
+    "title": "Public Opinion and World Peace",
+    "author": ["Hugh M. Woodward"],
+    "page_range": "243-246"
+  },
+  {
+    "title": "World Congress of Faiths: London, England, July 3-18, 1936",
+    "author": ["Helen Bishop", "Florence E. Pinchon"],
+    "page_range": "247-254"
+  },
+  {
+    "title": "The Unfoldment of World Civilization: IV",
+    "author": ["Shoghi Effendi"],
+    "page_range": "255-258"
+  },
+  {
+    "title": "Seven Candles of Unity: A Symposium",
+    "author": ["George Townshend"],
+    "page_range": "259-266"
+  },
+  {
+    "title": "A Divine Trust",
+    "author": ["‘Abdu’l-Bahá"],
+    "page_range": "267-268"
+  },
+  {
+    "title": "Chalice of Prayer",
+    "author": ["Alice Simmons Cox"],
+    "page_range": "268"
+  },
+  {
+    "title": "T. G. Masaryk: An Interview",
+    "author": ["Martha L. Root"],
+    "page_range": "269-270"
+  },
+  {
+    "title": "The Civilizing Element",
+    "author": ["Alice J. Robertson"],
+    "page_range": "271-276"
+  },
+  {
+    "title": "Signs of the Times",
+    "editor": ["Bertha Hyde Kirkpatrick"],
+    "page_range": "277"
+  },
+  {
+    "title": "Sweden: The Middle Way (Book Review)",
+    "author": ["Oscar Newfang"],
+    "page_range": "278-280"
+  }
+]
