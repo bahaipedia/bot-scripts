@@ -5,8 +5,10 @@ This file is used to import article/author pairs into bahaidata.org. Items that
  handling (adding language links, adding or  modifying the Author page on
  bahai.works to use bahaidata etc.)
 
-Usage: python import-articles.py Q220 (representing the Issue item where
- articles will be organized)
+Usage: python import-articles.py Q224 (representing the Issue item where
+ articles will be organized). The script accommodates both editorials and
+ articles with more than one author. See import.json for how to structure 
+ your data. Note: author must be passed as a list even for single authors.
 """
 
 import sys
@@ -24,6 +26,38 @@ login_instance = wbi_login.Clientlogin(user='David', password='hunter2')
 # Initialize Wikibase Integrator
 wbi = WikibaseIntegrator(login=login_instance)
 
+def validate_json_format(file_name):
+    with open(file_name, 'r', encoding='utf-8') as file:
+        try:
+            articles_data = json.load(file)
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON: {e}")
+            sys.exit(1)
+
+        for article in articles_data:
+            # Check for required keys
+            required_keys = ["title", "page_range"]
+            if not all(key in article for key in required_keys):
+                raise ValueError("Missing required keys in article entry.")
+
+            # Check for author or editorial
+            if 'author' not in article and 'editorial' not in article:
+                raise ValueError(f"Article '{article['title']}' must have either an author or be marked as editorial.")
+            
+            # Validate author format
+            if 'author' in article and not isinstance(article["author"], list):
+                raise ValueError(f"Author for '{article['title']}' is not formatted as a list.")
+
+            # Validate editorial format
+            if 'editorial' in article and not isinstance(article["editorial"], bool):
+                raise ValueError(f"Editorial field for '{article['title']}' is not a boolean.")
+
+            # Validate title and page range format
+            if not isinstance(article["title"], str) or not isinstance(article["page_range"], str):
+                raise ValueError(f"Title or Page Range for '{article['title']}' is not a string.")
+
+        print("JSON format is valid.")
+        
 def process_articles_from_file(file_name, magazine_issue_id):
     with open(file_name, 'r', encoding='utf-8') as file:
         articles_data = json.load(file)
@@ -32,24 +66,25 @@ def process_articles_from_file(file_name, magazine_issue_id):
         title, page_range = article['title'], article['page_range']
         person_item_ids = []
         person_role = None
+        is_editorial = article.get('editorial', False)
 
-        if 'author' in article:
+        if 'author' in article and not is_editorial:
             for author_name in article['author']:
                 person_item_id = check_or_create_author(author_name)
                 person_item_ids.append(person_item_id)
             person_role = 'author'
-        elif 'editor' in article:
-            person_item_id = check_or_create_editor(article['editor'])
-            person_item_ids.append(person_item_id)
-            person_role = 'editor'
+        elif is_editorial:
+            person_item_ids = ['Q19']  # Assuming 'Q19' is the ID for editorials
+            person_role = 'editorial'
 
         article_item_id = create_article_item(title, page_range, person_item_ids, magazine_issue_id, person_role)
 
-        for person_item_id in person_item_ids:
-            if person_role == 'author':
-                link_article_to_author(article_item_id, person_item_id)
-            elif person_role == 'editor':
-                link_article_to_editor(article_item_id, person_item_id)
+        if not is_editorial:
+            for person_item_id in person_item_ids:
+                if person_role == 'author':
+                    link_article_to_author(article_item_id, person_item_id)
+                elif person_role == 'editor':
+                    link_article_to_editor(article_item_id, person_item_id)
 
         link_article_to_magazine_issue(article_item_id, magazine_issue_id)
 
@@ -87,9 +122,8 @@ def create_article_item(title, page_range, person_item_ids, magazine_issue_id, p
     if person_role == 'author':
         for person_item_id in person_item_ids:
             article_item.claims.add(Item(value=person_item_id, prop_nr='P10'), action_if_exists=ActionIfExists.APPEND_OR_REPLACE)
-    elif person_role == 'editor':
-        # Assuming only one editor, so no loop needed
-        article_item.claims.add(Item(value=person_item_ids[0], prop_nr='P14'))
+    elif person_role == 'editorial':
+        article_item.claims.add(Item(value=person_item_ids[0], prop_nr='P12'))  # Editorial property
 
     article_item.claims.add(String(value=page_range, prop_nr='P6'))
     article_item.write()
@@ -119,4 +153,9 @@ if __name__ == "__main__":
         sys.exit(1)
 
     magazine_issue_id = sys.argv[1]
+    
+    # Validate JSON before processing
+    validate_json_format('import.json')
+
+    # Main processing
     process_articles_from_file('import.json', magazine_issue_id)
