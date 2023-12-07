@@ -7,7 +7,12 @@ of an editorial, right now that is not supported. I'll try to add it later.
 
 Be sure to delete this comment before trying to use this file.
 
-[
+[   
+  {
+        "title": "Spiritual Maturity",
+        "editorial": true,
+        "page_range": "321-322"
+  },
   {
     "title": "Public Opinion and World Peace",
     "author": ["Hugh M. Woodward"],
