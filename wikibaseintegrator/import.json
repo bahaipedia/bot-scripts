@@ -2,8 +2,7 @@ What follows is the example json file which is used by import-articles.py.
 ChatGPT is helpful in quickly taking a list of title/author/page range details 
 and formatting them into a file like this. 
 
-Author takes one or two paramaters, see below. If there is no author in the case
-of an editorial, right now that is not supported. I'll try to add it later.
+Author takes one or two paramaters, see below. 
 
 Be sure to delete this comment before trying to use this file.
 
