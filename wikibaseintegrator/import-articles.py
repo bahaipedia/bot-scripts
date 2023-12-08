@@ -7,9 +7,9 @@ This file is used to import article/author pairs into bahaidata.org. Items that
 
 Usage: python import-articles.py Q224 (representing the Issue item where
  articles will be organized). The script accommodates both editorials and
- articles with more than one author, or an editor instead of an author. 
- See import.json for how to structure  your data. Note: author or editor 
- must be passed as a list even for single authors.
+ articles with more than one author, or an editor/translator instead of an 
+ author. See import.json for how to structure  your data. Note: author or 
+ editor/translator must be passed as a list even for single authors.
 """
 
 import sys
@@ -41,9 +41,12 @@ def validate_json_format(file_name):
             if not all(key in article for key in required_keys):
                 raise ValueError("Missing required keys in article entry.")
 
-            # Check for author or editorial
-            if 'author' not in article and 'editor' not in article and 'editorial' not in article:
-                raise ValueError(f"Article '{article['title']}' must have either an author, an editor, or be marked as editorial.")
+            # Check for author, editor, translator, or editorial
+            if ('author' not in article and 
+                'editor' not in article and 
+                'translator' not in article and 
+                'editorial' not in article):
+                raise ValueError(f"Article '{article['title']}' must have either an author, an editor, a translator, or be marked as editorial.")
 
             # Validate author format
             if 'author' in article and not isinstance(article["author"], list):
@@ -60,6 +63,10 @@ def validate_json_format(file_name):
             # Validate editor format (expecting a single editor as a string)
             if 'editor' in article and not isinstance(article["editor"], list):
                 raise ValueError(f"Editor for '{article['title']}' is not formatted as a list.")
+                
+            # Validate translator format
+            if 'translator' in article and not isinstance(article["translator"], list):
+                raise ValueError(f"Translator for '{article['title']}' is not formatted as a list.")
 
         print("JSON format is valid.")
         
@@ -83,6 +90,11 @@ def process_articles_from_file(file_name, magazine_issue_id):
                 person_item_id = check_or_create_editor(editor_name)
                 person_item_ids.append(person_item_id)
             person_role = 'editor'
+        elif 'translator' in article:
+            for translator_name in article['translator']:
+                person_item_id = check_or_create_translator(translator_name)
+                person_item_ids.append(person_item_id)
+            person_role = 'translator'
         elif is_editorial:
             # Handle unnamed editorial
             person_role = 'editorial'
@@ -94,6 +106,8 @@ def process_articles_from_file(file_name, magazine_issue_id):
                 link_article_to_author(article_item_id, person_item_id)
             elif person_role == 'editor':
                 link_article_to_editor(article_item_id, person_item_id)
+            elif person_role == 'translator':
+                link_article_to_translator(article_item_id, person_item_id)
 
         link_article_to_magazine_issue(article_item_id, magazine_issue_id)
 
@@ -123,6 +137,19 @@ def check_or_create_editor(editor_name):
         print(f"Created editor {editor_name} ({new_editor_id})")
         return new_editor_id
 
+def check_or_create_translator(translator_name):
+    search_result = wbi_helpers.search_entities(translator_name)
+    
+    if search_result:
+        return search_result[0]
+    else:
+        translator_item = wbi.item.new()
+        translator_item.labels.set(language='en', value=translator_name)
+        translator_item.write()
+        new_translator_id = translator_item.id
+        print(f"Created translator {translator_name} ({new_translator_id})")
+        return new_translator_id
+        
 def create_article_item(title, page_range, person_item_ids, magazine_issue_id, person_role):
     article_item = wbi.item.new()
     article_item.labels.set(language='en', value=title)
@@ -132,7 +159,9 @@ def create_article_item(title, page_range, person_item_ids, magazine_issue_id, p
         for person_item_id in person_item_ids:
             article_item.claims.add(Item(value=person_item_id, prop_nr='P10'), action_if_exists=ActionIfExists.APPEND_OR_REPLACE)
     elif person_role == 'editor':
-        article_item.claims.add(Item(value=person_item_ids[0], prop_nr='P14'))  
+        article_item.claims.add(Item(value=person_item_ids[0], prop_nr='P14')) 
+    elif person_role == 'translator':
+        article_item.claims.add(Item(value=person_item_ids[0], prop_nr='P32')) 
     elif person_role == 'editorial':
         editorial_id = 'Q19'
         article_item.claims.add(Item(value=editorial_id, prop_nr='P12')) 
@@ -152,6 +181,12 @@ def link_article_to_editor(article_item_id, editor_item_id):
     new_claim = Item(value=article_item_id, prop_nr='P15')
     editor_item.claims.add(new_claim, action_if_exists=ActionIfExists.APPEND_OR_REPLACE)
     editor_item.write()
+    
+def link_article_to_translator(article_item_id, translator_item_id):
+    translator_item = wbi.item.get(entity_id=translator_item_id)
+    new_claim = Item(value=article_item_id, prop_nr='P33')
+    translator_item.claims.add(new_claim, action_if_exists=ActionIfExists.APPEND_OR_REPLACE)
+    translator_item.write()
 
 def link_article_to_magazine_issue(article_item_id, magazine_issue_id):
     magazine_issue_item = wbi.item.get(entity_id=magazine_issue_id)
