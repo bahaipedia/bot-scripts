@@ -2,13 +2,14 @@ r"""
 This file is used to import article/author pairs into bahaidata.org. Items that
  are created will be connected using the appropriate properties. New author
  items created will be printed to console since those likely need special
- handling (adding language links, adding or  modifying the Author page on
+ handling (adding language links, adding or modifying the Author page on
  bahai.works to use bahaidata etc.)
 
 Usage: python import-articles.py Q224 (representing the Issue item where
  articles will be organized). The script accommodates both editorials and
- articles with more than one author. See import.json for how to structure 
- your data. Note: author must be passed as a list even for single authors.
+ articles with more than one author, or an editor instead of an author. 
+ See import.json for how to structure  your data. Note: author or editor 
+ must be passed as a list even for single authors.
 """
 
 import sys
@@ -41,9 +42,9 @@ def validate_json_format(file_name):
                 raise ValueError("Missing required keys in article entry.")
 
             # Check for author or editorial
-            if 'author' not in article and 'editorial' not in article:
-                raise ValueError(f"Article '{article['title']}' must have either an author or be marked as editorial.")
-            
+            if 'author' not in article and 'editor' not in article and 'editorial' not in article:
+                raise ValueError(f"Article '{article['title']}' must have either an author, an editor, or be marked as editorial.")
+
             # Validate author format
             if 'author' in article and not isinstance(article["author"], list):
                 raise ValueError(f"Author for '{article['title']}' is not formatted as a list.")
@@ -55,6 +56,10 @@ def validate_json_format(file_name):
             # Validate title and page range format
             if not isinstance(article["title"], str) or not isinstance(article["page_range"], str):
                 raise ValueError(f"Title or Page Range for '{article['title']}' is not a string.")
+
+            # Validate editor format (expecting a single editor as a string)
+            if 'editor' in article and not isinstance(article["editor"], list):
+                raise ValueError(f"Editor for '{article['title']}' is not formatted as a list.")
 
         print("JSON format is valid.")
         
@@ -68,23 +73,27 @@ def process_articles_from_file(file_name, magazine_issue_id):
         person_role = None
         is_editorial = article.get('editorial', False)
 
-        if 'author' in article and not is_editorial:
+        if 'author' in article:
             for author_name in article['author']:
                 person_item_id = check_or_create_author(author_name)
                 person_item_ids.append(person_item_id)
             person_role = 'author'
+        elif 'editor' in article:
+            for editor_name in article['editor']:
+                person_item_id = check_or_create_editor(editor_name)
+                person_item_ids.append(person_item_id)
+            person_role = 'editor'
         elif is_editorial:
-            person_item_ids = ['Q19']  # Assuming 'Q19' is the ID for editorials
+            # Handle unnamed editorial
             person_role = 'editorial'
 
         article_item_id = create_article_item(title, page_range, person_item_ids, magazine_issue_id, person_role)
 
-        if not is_editorial:
-            for person_item_id in person_item_ids:
-                if person_role == 'author':
-                    link_article_to_author(article_item_id, person_item_id)
-                elif person_role == 'editor':
-                    link_article_to_editor(article_item_id, person_item_id)
+        for person_item_id in person_item_ids:
+            if person_role == 'author':
+                link_article_to_author(article_item_id, person_item_id)
+            elif person_role == 'editor':
+                link_article_to_editor(article_item_id, person_item_id)
 
         link_article_to_magazine_issue(article_item_id, magazine_issue_id)
 
@@ -122,8 +131,11 @@ def create_article_item(title, page_range, person_item_ids, magazine_issue_id, p
     if person_role == 'author':
         for person_item_id in person_item_ids:
             article_item.claims.add(Item(value=person_item_id, prop_nr='P10'), action_if_exists=ActionIfExists.APPEND_OR_REPLACE)
+    elif person_role == 'editor':
+        article_item.claims.add(Item(value=person_item_ids[0], prop_nr='P14'))  
     elif person_role == 'editorial':
-        article_item.claims.add(Item(value=person_item_ids[0], prop_nr='P12'))  # Editorial property
+        editorial_id = 'Q19'
+        article_item.claims.add(Item(value=editorial_id, prop_nr='P12')) 
 
     article_item.claims.add(String(value=page_range, prop_nr='P6'))
     article_item.write()
