@@ -8,15 +8,16 @@ This file is used to import article/author pairs into bahaidata.org. Items that
 Usage: python import-articles.py Q224 (representing the Issue item where
  articles will be organized). The script accommodates both editorials and
  articles with more than one author, or an editor/translator instead of an 
- author. See import.json for how to structure  your data. Note: author or 
+ author. See import.json for how to structure your data. Note: author or 
  editor/translator must be passed as a list even for single authors.
 """
 
+import json
 import sys
+import re
 from wikibaseintegrator import wbi_login, WikibaseIntegrator, wbi_helpers
 from wikibaseintegrator.datatypes import String, Item
 from wikibaseintegrator.wbi_config import config as wbi_config
-import json
 from wikibaseintegrator.wbi_enums import ActionIfExists
 
 # Configuration
@@ -27,7 +28,12 @@ login_instance = wbi_login.Clientlogin(user='David', password='hunter2')
 # Initialize Wikibase Integrator
 wbi = WikibaseIntegrator(login=login_instance)
 
+def is_ascii(s):
+    """Check if the string contains only ASCII characters."""
+    return re.match(r'^[\x00-\x7F–—]+$', s) is not None
+
 def validate_json_format(file_name):
+    """Validate the JSON file format and content."""
     with open(file_name, 'r', encoding='utf-8') as file:
         try:
             articles_data = json.load(file)
@@ -41,12 +47,19 @@ def validate_json_format(file_name):
             if not all(key in article for key in required_keys):
                 raise ValueError("Missing required keys in article entry.")
 
-            # Check for author, editor, translator, or editorial
-            if ('author' not in article and 
-                'editor' not in article and 
-                'translator' not in article and 
-                'editorial' not in article):
-                raise ValueError(f"Article '{article['title']}' must have either an author, an editor, a translator, or be marked as editorial.")
+            # Validate title for ASCII characters
+            if not is_ascii(article["title"]):
+                raise ValueError(f"Non-ASCII character found in title '{article['title']}'.")
+
+            # Check for ASCII characters in author, editor, and translator names
+            for field in ['author', 'editor', 'translator']:
+                if field in article:
+                    if not isinstance(article[field], list):
+                        raise ValueError(f"The '{field}' field for '{article['title']}' is not formatted as a list.")
+
+                    for name in article[field]:
+                        if not is_ascii(name):
+                            raise ValueError(f"Non-ASCII character found in {field} name '{name}' in article '{article['title']}'.")
 
             # Validate author format
             if 'author' in article and not isinstance(article["author"], list):
