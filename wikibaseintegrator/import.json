@@ -2,8 +2,8 @@ What follows is the example json file which is used by import-articles.py.
 ChatGPT is helpful in quickly taking a list of title/author/editor/page range details 
 and formatting them into a file like this. 
 
-Author takes one or two paramaters, see below. 
-Note the last item author is replaced with editor in the case of a named editor.
+Author takes one or more paramaters, see below. Note that the script will reject
+non ASCII characters with the exception of en or em dashes. 
 
 Be sure to delete this comment before trying to use this file.
 
