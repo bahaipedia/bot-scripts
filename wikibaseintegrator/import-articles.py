@@ -10,6 +10,12 @@ Usage: python import-articles.py Q224 (representing the Issue item where
  articles with more than one author, or an editor/translator instead of an 
  author. See import.json for how to structure your data. Note: author or 
  editor/translator must be passed as a list even for single authors.
+ 
+Note: This script will match authors based on the "Also known as" field on
+ the item page. Meaning trying to add "Marzieh Nabil Carpenter" as an author 
+ to an article will result in Marzieh Gail (Q741) being added instead. However
+ the script fails when trying to add the article to the author item which is 
+ now different then expected. This has not been fixed yet.
 """
 
 import json
