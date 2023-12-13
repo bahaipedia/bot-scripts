@@ -28,12 +28,7 @@ login_instance = wbi_login.Clientlogin(user='David', password='hunter2')
 # Initialize Wikibase Integrator
 wbi = WikibaseIntegrator(login=login_instance)
 
-def is_ascii(s):
-    """Check if the string contains only ASCII characters."""
-    return re.match(r'^[\x00-\x7F–—‘’“”]+$', s) is not None
-
 def validate_json_format(file_name):
-    """Validate the JSON file format and content."""
     with open(file_name, 'r', encoding='utf-8') as file:
         try:
             articles_data = json.load(file)
@@ -47,19 +42,12 @@ def validate_json_format(file_name):
             if not all(key in article for key in required_keys):
                 raise ValueError("Missing required keys in article entry.")
 
-            # Validate title for ASCII characters
-            if not is_ascii(article["title"]):
-                raise ValueError(f"Non-ASCII character found in title '{article['title']}'.")
-
-            # Check for ASCII characters in author, editor, and translator names
-            for field in ['author', 'editor', 'translator']:
-                if field in article:
-                    if not isinstance(article[field], list):
-                        raise ValueError(f"The '{field}' field for '{article['title']}' is not formatted as a list.")
-
-                    for name in article[field]:
-                        if not is_ascii(name):
-                            raise ValueError(f"Non-ASCII character found in {field} name '{name}' in article '{article['title']}'.")
+            # Check for author, editor, translator, or editorial
+            if ('author' not in article and 
+                'editor' not in article and 
+                'translator' not in article and 
+                'editorial' not in article):
+                raise ValueError(f"Article '{article['title']}' must have either an author, an editor, a translator, or be marked as editorial.")
 
             # Validate author format
             if 'author' in article and not isinstance(article["author"], list):
@@ -81,7 +69,7 @@ def validate_json_format(file_name):
             if 'translator' in article and not isinstance(article["translator"], list):
                 raise ValueError(f"Translator for '{article['title']}' is not formatted as a list.")
 
-        print("JSON format is valid.")
+        print("JSON file is valid.")
         
 def process_articles_from_file(file_name, magazine_issue_id):
     with open(file_name, 'r', encoding='utf-8') as file:
