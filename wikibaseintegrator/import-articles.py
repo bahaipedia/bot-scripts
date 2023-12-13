@@ -30,7 +30,7 @@ wbi = WikibaseIntegrator(login=login_instance)
 
 def is_ascii(s):
     """Check if the string contains only ASCII characters."""
-    return re.match(r'^[\x00-\x7F–—]+$', s) is not None
+    return re.match(r'^[\x00-\x7F–—‘’“”]+$', s) is not None
 
 def validate_json_format(file_name):
     """Validate the JSON file format and content."""
