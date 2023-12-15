@@ -7,4 +7,5 @@ Steps to create article/author items on Bahaidata.org from a list of articles in
     - It will assume and add page ranges so you don't need to specify antyhing other then the starting page of an article unless the ending page is shared with the start of a new article, then you need to specify the page range manually. 
    - If there are OCR errors in the titles or authors you can use ChatGPT to correct those also
 3. run "python import-articles.py Qxxx" replacing the Q number with the item for the issue you are working on
-   - If the script outputs something like *Created author Lydia G. Wentworth (Q821)* copy that into a file called needed-authors.txt and refer to bot-scripts/python/needed-authors.py
+   - If the script outputs something like *Created author Lydia G. Wentworth (Q821)* copy that into a file called needed-authors.txt and refer to bot-scripts/python/needed-authors.py followed by
+4. *forthcoming script to add sitelinks back to works*
