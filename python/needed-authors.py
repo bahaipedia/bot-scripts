@@ -1,11 +1,10 @@
 r""" 
-This script processes a list of author names in this format:
+This script processes a list of author names from the file needed-authors.txt in this format:
 
 Created author Lydia G. Wentworth (Q821)
 Created author Ethel Nash Crane (Q822)
 
-from the file needed-authors.txt and creates the page formatting for author pages
-on bahai.works. 
+and outputs them in a format that can be used by the pywikibot script pagefromfile.py
 
 Usage: python needed-authors.py
 """
