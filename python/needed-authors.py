@@ -1,3 +1,16 @@
+r"""
+Step 1 is using import-articles.py to add article and author items. Author items
+that don't exist will print a list to console in the format:
+
+Created author Lydia G. Wentworth (Q821)
+Created author Ethel Nash Crane (Q822)
+
+Double check the name are not already on bahai.works under some variation and if it
+truely doesn't exist copy the names to a textfile called needed-authors.txt. This
+script is step 2. It takes the list of authors in needed-authors.txt and generates 
+an output file which can be run by the pywikibot pagefromfile.py which is step 3.
+"""
+
 def process_line(line):
     # Extracting the author's name and identifier
     parts = line.strip().split()
