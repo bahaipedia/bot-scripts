@@ -1,7 +1,7 @@
 These scripts are used as part of a workflow that involves several different steps, websites and frameworks. In general the steps are (scripts/steps in this folder are marked with bold):
 
 1. Import a list of article/author pairs into bahaidata.org using bot-scripts/wikibaseintegrator/import-articles.py
-   - The script outputs to console when a new author item is added, for example: Created author Lydia G. Wentworth (Q821). A new author means extra work: Adding a page on bahai.works, then adding a sitelink on bahaidata.org
+   - The script outputs to console when a new author item is added, for example: *Created author Lydia G. Wentworth (Q821)*. A new author means extra work: Adding a page on bahai.works, then adding a sitelink on bahaidata.org
    - Double check the author doens't exist, then save that line to a file called needed-authors.txt
 2. **run "python needed-authors.py" which uses needed-authors.txt to create needed-authors-ready.txt**
    - The script gets the list of author names and item numbers ready to be imported into bahai.works using pywikibot's pagefromfile.py
