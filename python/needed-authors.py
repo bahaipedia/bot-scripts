@@ -4,7 +4,7 @@ This script processes a list of author names in this format:
 Created author Lydia G. Wentworth (Q821)
 Created author Ethel Nash Crane (Q822)
 
-From the file needed-authors.txt and creates the page formatting for author pages
+from the file needed-authors.txt and creates the page formatting for author pages
 on bahai.works. 
 
 Usage: python needed-authors.py
