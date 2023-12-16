@@ -8,4 +8,4 @@ Steps to create article/author items on Bahaidata.org from a list of articles in
    - If there are OCR errors in the titles or authors you can use ChatGPT to correct those also
 3. run "python import-articles.py Qxxx" replacing the Q number with the item for the issue you are working on
    - If the script outputs something like *Created author Lydia G. Wentworth (Q821)* copy that into a file called needed-authors.txt and refer to bot-scripts/python/needed-authors.py followed by
-4. *forthcoming script to add sitelinks back to works*
+4. api_addsitelinks.py located in bot-scripts/python to add sitelinks to bahai.works using api.php
