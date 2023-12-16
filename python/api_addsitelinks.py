@@ -65,4 +65,7 @@ with open('needed-authors.txt', 'r') as file:
             item_id = match.group(2)
             page_title = f'Author:{author_name}'
             response = set_sitelink(session, item_id, 'works', page_title, csrf_token)
-            print(f"Set sitelink for {author_name} ({item_id}):", response)
+
+            # Print only if there's an error
+            if 'success' not in response or response['success'] != 1:
+                print(f"Error setting sitelink for {author_name} ({item_id}):", response)
