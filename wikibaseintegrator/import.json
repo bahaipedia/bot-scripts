@@ -2,15 +2,17 @@ What follows is the example json file which is used by import-articles.py.
 ChatGPT is helpful in quickly taking a list of title/author/editor/page range details 
 and formatting them into a file like this. 
 
-Author takes one or more paramaters, see below. Note that the script will reject
-non ASCII characters with the exception of en or em dashes. 
+Author takes one or more paramaters, see below. "instanceof" accepts any input. Some 
+common ones are: editorial (Q19), poem (Q44), compilation (Q65), excerpt (Q426), index (Q540)
+but they do not need to exist before the script is run. It will ask you if you want to create
+the item if it doesn't exist.
 
 Be sure to delete this comment before trying to use this file.
 
 [   
   {
-    "title": "Spiritual Maturity",
-    "editorial": true,
+    "title": "With Our Readers",
+    "instanceof": "editorial",
     "page_range": "241-242"
   },
   {
