@@ -7,7 +7,8 @@ common ones are: editorial (Q19), poem (Q44), compilation (Q65), excerpt (Q426),
 but they do not need to exist before the script is run. It will ask you if you want to create
 the item if it doesn't exist.
 
-Be sure to delete this comment before trying to use this file.
+Be sure to delete this comment before trying to use this file. Note the lack of a comma in
+the last item in the series after "page_range": "256" below.
 
 [   
   {
@@ -34,5 +35,5 @@ Be sure to delete this comment before trying to use this file.
     "title": "From Sa’dí’s Rose-Garden",
     "translator": ["Marzieh Nabil Carpenter"],
     "page_range": "256"
-    },
+    }
 ]
