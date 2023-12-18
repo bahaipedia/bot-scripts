@@ -3,9 +3,9 @@ ChatGPT is helpful in quickly taking a list of title/author/editor/page range de
 and formatting them into a file like this. 
 
 Author takes one or more paramaters, see below. "instanceof" accepts any input. Some 
-common ones are: editorial (Q19), poem (Q44), compilation (Q65), excerpt (Q426), index (Q540)
-but they do not need to exist before the script is run. It will ask you if you want to create
-the item if it doesn't exist.
+common ones are: editorial, poem, compilation, excerpt or index but they do not need to 
+exist before the script is run. It will ask you if you want to create the item if it 
+doesn't exist. 
 
 Be sure to delete this comment before trying to use this file. Note the lack of a comma in
 the last item in the series after "page_range": "256" below.
