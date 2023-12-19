@@ -2,12 +2,9 @@ These scripts are used as part of a workflow that involves several different ste
 
 1. Import a list of article/author pairs into bahaidata.org using bot-scripts/wikibaseintegrator/import-articles.py
    - The script outputs to console when a new author item is added, for example: *Created author Lydia G. Wentworth (Q821)*. A new author means extra work: Adding a page on bahai.works, then adding a sitelink on bahaidata.org
-   - Double check the author doesn't exist, then save that line to a file called needed-authors.txt (keep this file, it's used in steps 2 and 5)
-2. **run "python needed-authors.py"** which uses needed-authors.txt to create needed-authors-ready.txt
-   - The script gets the list of author names and item numbers ready to be imported into bahai.works using pywikibot's pagefromfile.py
-3. run "pwb pagefromfile.py -notitle -file:needed-authors-ready.txt" (you may call pywikibot differently, paths may be different too)
-   - Now bahai.works should have author pages for all the authors originally listed in needed-authors.txt.
-   - They should also be categorized appropriately based on last name.
+   - Double check the author is not already listed on [bahai.works](https://bahai.works/Authors), then save that line to a file called needed-authors.txt
+2. **run "python api_addpages_works.py"** which uses needed-authors.txt to create author pages on bahai.works when none existed before.
+3. **run "python api_addsitelinks_data.py** which uses needed-authors.txt to add sitelinks from bahaidata.org to the newly created bahai.works pages
 4. **run "python pages-from-cat.py"** which creates a file called pages-from-cat-output.txt
    - Copy the contents of pages-from-cat-output.txt into [[Authors]] on bahai.works, it should be adding all the authors from needed-authors.txt
 5. **run "python api_addsitelinks.py"** which uses needed-authors.txt to add sitelinks on bahaidata.org back to the newly created bahai.works author pages.
