@@ -82,7 +82,7 @@ def handle_instanceof_items(file_name):
                     print("Script terminated due to missing 'instanceof' item.")
                     sys.exit(1)
 
-    print("All 'instanceof' items are valid or have been created.")
+    print("All 'instanceof' items are valid.")
         
 def process_articles_from_file(file_name, magazine_issue_id):
     with open(file_name, 'r', encoding='utf-8') as file:
