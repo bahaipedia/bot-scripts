@@ -17,6 +17,7 @@ import json
 import sys
 from wikibaseintegrator import wbi_login, WikibaseIntegrator, wbi_helpers
 from wikibaseintegrator.datatypes import String, Item
+from wikibaseintegrator.datatypes.extra.localmedia import LocalMedia
 from wikibaseintegrator.wbi_config import config as wbi_config
 from wikibaseintegrator.wbi_enums import ActionIfExists
 
