@@ -1,5 +1,12 @@
 r"""
-This script uses needed-authors.txt to create author pages on bahai.works
+This script uses the bahai.works api to login and add author pages from 
+needed_authors.txt, a file which should look something like this:
+
+Created author Everett Tabor Gamage (Q811)
+Created author A. G. B. (Q831)
+Created author Philip Nash (Q834)
+
+Be sure to replace your username and password below.
 
 Usage: python api_addpages_works.py
 """
@@ -14,12 +21,12 @@ def process_line(line):
     return None, None
 
 def format_author_page(name, identifier):
-    return f"""{{author2|wb={identifier}}}
+    return f"""{{{{author2|wb={identifier}}}}}
 
 ===Articles===
 ====World Order====
 <section begin=wo_article/>
-{{#invoke:WorldOrder|getArticlesByAuthor|{identifier}}}
+{{{{#invoke:WorldOrder|getArticlesByAuthor|{identifier}}}}}
 <section end=wo_article/>
 __NOTOC__
 """
