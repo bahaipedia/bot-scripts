@@ -1,9 +1,14 @@
 r"""
-This script uses api.php to login and add sitelinks from needed_authors.txt, a file which should look something like this:
+This script uses the bahaidata.org api to login and add sitelinks 
+from needed_authors.txt, a file which should look something like this:
 
 Created author Everett Tabor Gamage (Q811)
 Created author A. G. B. (Q831)
 Created author Philip Nash (Q834)
+
+Be sure to replace your username and password below.
+
+Usage: python api_addsitelinks_data.py
 """
 
 import requests
