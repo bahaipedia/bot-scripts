@@ -7,5 +7,3 @@ These scripts are used as part of a workflow that involves several different ste
 3. **run "python api_addsitelinks_data.py** which uses needed-authors.txt to add sitelinks from bahaidata.org to the newly created bahai.works pages
 4. **run "python pages-from-cat.py"** which creates a file called pages-from-cat-output.txt
    - Copy the contents of pages-from-cat-output.txt into [[Authors]] on bahai.works, it should be adding all the authors from needed-authors.txt
-5. **run "python api_addsitelinks.py"** which uses needed-authors.txt to add sitelinks on bahaidata.org back to the newly created bahai.works author pages.
-   - You'll need to update your own username/password in this file.
