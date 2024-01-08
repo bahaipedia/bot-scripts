@@ -21,7 +21,7 @@ def process_line(line):
     return None, None
 
 def format_author_page(name, identifier):
-    return f"""{{{{author2|wb={identifier}}}}}
+    return f"""{{{{author2}}}}
 
 ===Articles===
 ====World Order====
