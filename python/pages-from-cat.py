@@ -43,20 +43,24 @@ def process_name(page_title):
     has_connector = contains_connector(name_parts)
     has_suffix = contains_suffix(name_parts)
     
-    # Process the name based on connectors, suffixes
+    # Adjusting process based on presence of connectors and suffixes
     if has_connector:
         connector_index = next((i for i, part in enumerate(name_parts) if connectors.get(part.lower())), len(name_parts))
         last_part = " ".join(name_parts[connector_index:])
         first_part = " ".join(name_parts[:connector_index])
     elif has_suffix:
         suffix_index = next((i for i, part in enumerate(name_parts) if suffixes.get(part)), len(name_parts))
-        last_part = name_parts[suffix_index - 1]  # Get the part before the suffix
+        last_part = " ".join(name_parts[suffix_index - 1:suffix_index + 1])  # Include the suffix in the last part
         first_part = " ".join(name_parts[:suffix_index - 1])
     else:
         last_part = name_parts[-1]
         first_part = " ".join(name_parts[:-1])
 
-    return f"{last_part}, {first_part}" if first_part else last_part
+    # Handling comma placement correctly
+    if first_part:
+        return f"{last_part}, {first_part}"
+    else:
+        return last_part
 
 def get_category_members(category, endpoint):
     params = {
