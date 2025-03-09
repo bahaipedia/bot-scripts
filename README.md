@@ -58,3 +58,9 @@ For example, to download `import-articles.py`:
 
 1. Visit the [import-articles.py file](https://github.com/bahaipedia/bot-scripts/blob/main/wikibaseintegrator/import-articles.py).
 2. Right-click on **Raw** and select **Save Link As**.
+
+### 6. Run the scripts
+
+```bash
+python path/to/import-articles.py
+```
