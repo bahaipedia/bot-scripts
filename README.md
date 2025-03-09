@@ -5,16 +5,16 @@ Pywikibot is suitable for performing bulk editing actions on Bahaipedia, Bahai.w
 
 WikibaseIntegrator is intended for use with Wikibase style websites like Bahaidata.org or Wikidata.org. 
 
-# Installing Pywikibot
+## Installing Pywikibot
 
 
 
 
-# Installing WikibaseIntegrator
+## Installing WikibaseIntegrator
 
 Follow the steps below to install and set up WikibaseIntegrator.
 
-### 1. Create a Virtual Environment
+#### 1. Create a Virtual Environment
 
 Navigate to your project directory and run:
 
@@ -22,7 +22,7 @@ Navigate to your project directory and run:
 python -m venv wikibase_env
 ```
 
-### 2. Activate the Virtual Environment
+#### 2. Activate the Virtual Environment
 
 - **Windows**:
   ```bash
@@ -34,7 +34,7 @@ python -m venv wikibase_env
   source wikibase_env/bin/activate
   ```
 
-### 3. Install WikibaseIntegrator
+#### 3. Install WikibaseIntegrator
 
 Run the following command to install WikibaseIntegrator:
 
@@ -42,7 +42,7 @@ Run the following command to install WikibaseIntegrator:
 python -m pip install wikibaseintegrator
 ```
 
-### 4. Verify the Installation
+#### 4. Verify the Installation
 
 To verify that WikibaseIntegrator has been installed correctly, run:
 
