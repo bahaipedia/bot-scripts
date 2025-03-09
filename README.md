@@ -49,3 +49,12 @@ To verify that WikibaseIntegrator has been installed correctly, run:
 ```bash
 python -c "import wikibaseintegrator; print(wikibaseintegrator.__version__)"
 ```
+
+### 5. Download the Scripts You Need
+
+To download the specific bot scripts you need, navigate to the [wikibaseintegrator folder](https://github.com/bahaipedia/bot-scripts/tree/main/wikibaseintegrator) in the repository. You can download individual scripts by selecting them and clicking on the **Download** button or by cloning the entire repository.
+
+For example, to download `import-articles.py`:
+
+1. Visit the [import-articles.py file](https://github.com/bahaipedia/bot-scripts/blob/main/wikibaseintegrator/import-articles.py).
+2. Right-click on **Raw** and select **Save Link As**.
