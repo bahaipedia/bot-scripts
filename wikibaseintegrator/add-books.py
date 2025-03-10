@@ -81,7 +81,7 @@ def process_row(row, output_file):
     author_name = row['AUTHOR']
     author_id = check_or_create_author(author_name)
     image = row['COVER_IMAGE']
-    publication_date = row['PUBYEAR']
+    publication_year = row['PUBYEAR']
     publisher_name = row['PUBLISHER']
     publisher_id = check_or_create_publisher(publisher_name)
     country_name = row['COUNTRY']
