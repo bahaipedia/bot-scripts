@@ -66,6 +66,12 @@ def check_or_create_country(country_name):
         print(f"Created country {country_name} ({new_country_id})")
         return new_country_id
 
+def link_book_to_author(book_item_id, author_item_id):
+    author_item = wbi.item.get(entity_id=author_item_id)
+    new_claim = Item(value=book_item_id, prop_nr='P11')
+    author_item.claims.add(new_claim, action_if_exists=ActionIfExists.APPEND_OR_REPLACE)
+    author_item.write()
+
 def process_row(row, output_file):
     # Map CSV columns to Wikibase properties and create/update the book item
     label = row['TITLE']
@@ -110,6 +116,9 @@ def process_row(row, output_file):
         book_item.claims.add(String(value=isbn_13, prop_nr='P49'))  # ISBN-13
 
     book_item.write()
+
+    # Link the book to the author
+    link_book_to_author(book_item.id, author_id)
 
     # Write the confirmation message to the file
     output_file.write(f"Created {label} ({book_item.id})\n")
