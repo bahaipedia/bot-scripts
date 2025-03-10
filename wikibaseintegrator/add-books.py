@@ -78,8 +78,8 @@ def process_row(row, output_file):
     # Map CSV columns to Wikibase properties and create/update the book item
     label = row['TITLE']
     title = row['FULL_TITLE'] if row['FULL_TITLE'] else row['TITLE']
-    author_name = row['AUTHOR']
-    author_id = check_or_create_author(author_name)
+    authors = row['AUTHOR'].split(',')  # Assuming authors are separated by commas
+    author_ids = [check_or_create_author(author.strip()) for author in authors]
     image = row['COVER_IMAGE']
     publication_year = row['PUBYEAR']
     publisher_name = row['PUBLISHER']
@@ -95,9 +95,10 @@ def process_row(row, output_file):
     book_item.labels.set(language='en', value=label)
     book_item.claims.add(Item(value='Q4581', prop_nr='P12'))  # Instance of written work
     book_item.claims.add(MonolingualText(text=title, language='en', prop_nr='P47'))  # Title
-    book_item.claims.add(Item(value=author_id, prop_nr='P10'))  # Author ID
+    for author_id in author_ids:
+        book_item.claims.add(Item(value=author_id, prop_nr='P10'))  # Add each author ID
     book_item.claims.add(String(value=image, prop_nr='P35'))  # Image
-    
+
     # Add publication year with year precision
     year = int(publication_year)
     book_item.claims.add(Time(time=f'+{year:04}-00-00T00:00:00Z', prop_nr='P29', precision=9))
@@ -112,8 +113,9 @@ def process_row(row, output_file):
 
     book_item.write()
 
-    # Link the book to the author
-    link_book_to_author(book_item.id, author_id)
+    # Link the book to each author
+    for author_id in author_ids:
+        link_book_to_author(book_item.id, author_id)
 
     # Write the confirmation message to the file
     output_file.write(f"Created {label} ({book_item.id})\n")
