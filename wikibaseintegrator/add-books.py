@@ -4,6 +4,8 @@ Purpose: Import books from bahai.works into bahaidata.org to help with automatic
 Requires: books.cvs with UTF-8 encoding with columns TITLE,FULL_TITLE,AUTHOR,COVER_IMAGE,TRANSLATOR,EDITOR,PUBLISHER,COUNTRY,PUBYEAR,PAGES,ISBN10,ISBN13
 
 Usage: python add-books.py
+
+After this script then https://github.com/bahaipedia/bot-scripts/blob/main/python/api_addsitelinks_data-bookformat.py to create the sitelinks from bahaidata back to bahai.works
 """
 
 import csv
