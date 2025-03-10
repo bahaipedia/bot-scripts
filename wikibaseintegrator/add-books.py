@@ -98,13 +98,9 @@ def process_row(row, output_file):
     book_item.claims.add(Item(value=author_id, prop_nr='P10'))  # Author ID
     book_item.claims.add(String(value=image, prop_nr='P35'))  # Image
     
-    # Parse and add publication date
-    if publication_year:
-        try:
-            year = int(publication_year)
-            book_item.claims.add(Time(time=f'+{year:04}-00-00T00:00:00Z', prop_nr='P29', precision=9))
-        except ValueError:
-            print(f"Invalid year format for publication year: {publication_year}")
+    # Add publication year with year precision
+    year = int(publication_year)
+    book_item.claims.add(Time(time=f'+{year:04}-00-00T00:00:00Z', prop_nr='P29', precision=9))
 
     book_item.claims.add(Item(value=publisher_id, prop_nr='P26'))  # Publisher ID
     book_item.claims.add(Item(value=country_id, prop_nr='P48'))  # Country ID
