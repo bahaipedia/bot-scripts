@@ -1,12 +1,12 @@
 r"""
 This script uses the bahaidata.org api to login and add sitelinks 
-from needed_authors.txt, a file which should look something like this:
+from needed-books.txt, a file which should look something like this:
 
 Created 239 Days (Q6135)
 
 Be sure to replace your username and password below.
 
-Usage: python api_addsitelinks_data.py
+Usage: python api_addsitelinks_data-bookformat.py
 """
 
 import requests
