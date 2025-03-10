@@ -66,7 +66,7 @@ def check_or_create_country(country_name):
         print(f"Created country {country_name} ({new_country_id})")
         return new_country_id
 
-def process_row(row):
+def process_row(row, output_file):
     # Map CSV columns to Wikibase properties and create/update the book item
     label = row['TITLE']
     title = row['FULL_TITLE'] if row['FULL_TITLE'] else row['TITLE']
@@ -92,7 +92,6 @@ def process_row(row):
     
     # Parse and add publication date
     if publication_date:
-        # Assuming publication_date is in 'YYYY' or 'YYYY-MM-DD' format
         try:
             date_parts = publication_date.split('-')
             year = int(date_parts[0])
@@ -111,10 +110,12 @@ def process_row(row):
         book_item.claims.add(String(value=isbn_13, prop_nr='P49'))  # ISBN-13
 
     book_item.write()
-    print(f"Created {label} ({book_item.id})")
+
+    # Write the confirmation message to the file
+    output_file.write(f"Created {label} ({book_item.id})\n")
 
 if __name__ == "__main__":
-    with open('books.csv', mode='r', encoding='utf-8-sig') as file:
+    with open('books.csv', mode='r', encoding='utf-8-sig') as file, open('needed-books.txt', mode='a', encoding='utf-8') as output_file:
         reader = csv.DictReader(file)
         
         for row in reader:
@@ -122,6 +123,6 @@ if __name__ == "__main__":
                 continue
 
             try:
-                process_row(row)
+                process_row(row, output_file)
             except Exception as e:
                 print(f"Failed to process row: {e}")
