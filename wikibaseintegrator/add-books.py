@@ -96,7 +96,8 @@ def process_row(row, output_file):
     book_item.claims.add(Item(value='Q4581', prop_nr='P12'))  # Instance of written work
     book_item.claims.add(MonolingualText(text=title, language='en', prop_nr='P47'))  # Title
     for author_id in author_ids:
-        book_item.claims.add(Item(value=author_id, prop_nr='P10'))  # Add each author ID
+        book_item.claims.add(Item(value=author_id, prop_nr='P10'),
+    action_if_exists=ActionIfExists.APPEND_OR_REPLACE)
     book_item.claims.add(String(value=image, prop_nr='P35'))  # Image
 
     # Add publication year with year precision
