@@ -1,6 +1,8 @@
 r"""
 This script uses the bahai.org/library api to retreive a list of quotes for a certain keyword 
 
+Create an "output" folder where this script exists
+
 To fill in the <REPLACEME> sections below 
  1: navigate to https://www.bahai.org/library/authoritative-texts/search#q=faith
  2: Find the "Network" tab in the browser developer console, highlight "Fetch/XHR"
