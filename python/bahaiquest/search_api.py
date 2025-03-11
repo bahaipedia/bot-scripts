@@ -3,7 +3,7 @@ This script uses the bahai.org/library api to retreive a list of quotes for a ce
 
 Create an "output" folder where this script exists
 
-To fill in the <REPLACEME> sections below 
+To fill in the <REPLACEME> section below 
  1: navigate to https://www.bahai.org/library/authoritative-texts/search#q=faith
  2: Find the "Network" tab in the browser developer console, highlight "Fetch/XHR"
  3: Click on a search result or anything
