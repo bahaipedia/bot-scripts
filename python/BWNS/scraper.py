@@ -16,7 +16,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
-def sanitize_filename(text, max_length=50):
+def sanitize_filename(text, max_length=55):
     """Sanitize filename by keeping only alphanumeric and common punctuation."""
     # We're always adding an extension later, so we shouldn't look for one in the text
     # Sanitize the text
