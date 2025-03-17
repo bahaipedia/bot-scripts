@@ -19,6 +19,9 @@ def sanitize_filename(text, max_length=55):
     # We're always adding an extension later, so we shouldn't look for one in the text
     # Sanitize the text
     text = re.sub(r'[^a-zA-Z0-9 _.,()\'"-]', '', text)
+    # Strip apostrophes and change periods to commas
+    text = text.replace("'", "")
+    text = text.replace(".", ",")
     text = text.replace(' ', '_')
     # Calculate available space for text (assuming .jpg extension will be added later)
     extension_length = 4  # Length of ".jpg"
@@ -33,7 +36,7 @@ def sanitize_filename(text, max_length=55):
             # If no space found, just truncate
             text = text[:available_length]
     # Remove trailing periods and spaces
-    text = text.rstrip('. ')
+    text = text.rstrip(', ')
     return text
 
 def download_images_and_captions(story_id):
