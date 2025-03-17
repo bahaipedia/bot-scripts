@@ -3,7 +3,7 @@ Script purpose is to access a BWNS article, download all the images and associat
 using the first few words of the caption, and separately save the caption in a .txt file that follows
 the bahai.media format for automatic importing of images following the download process.
  
-Usage: python scraper.py <article number>
+Usage: python scraper.py <article number start> <article number end>
 
 """
 
