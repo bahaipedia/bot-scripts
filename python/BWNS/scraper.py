@@ -62,7 +62,7 @@ def download_images_and_captions(story_id):
             image_url = meta_image["content"].split("?")[0] if meta_image else None
             
             # Fallback to .narrative div
-            if not caption or not image_url:
+            if not image_url:
                 narrative = soup.find("div", class_="narrative")
                 if narrative:
                     caption_tag = narrative.find("p")
@@ -71,19 +71,22 @@ def download_images_and_captions(story_id):
                         caption = caption_tag.get_text(strip=True)
                     if download_link and download_link.a:
                         image_url = download_link.a["href"].split("?")[0]
-                        
-            if not caption or not image_url:
-                print(f"Skipping slide {slide_number} of article {story_id}: Missing caption or image.")
+            
+            # Skip if no image URL found
+            if not image_url:
+                print(f"Skipping slide {slide_number} of article {story_id}: No image found.")
                 slide_number += 1
                 time.sleep(15)  # 15 second delay between fetching images
                 continue
-                
+            
             article_has_images = True
             
-            # Create filenames
-            filename_base = sanitize_filename(caption)
-            image_filename = os.path.join(output_dir, f"{filename_base}.jpg")
-            text_filename = os.path.join(output_dir, f"{filename_base}.txt")
+            # Create filenames - if caption exists, use it for the filename, otherwise use a generic name
+            if caption:
+                filename_base = sanitize_filename(caption)
+                image_filename = os.path.join(output_dir, f"{filename_base}.jpg")
+            else:
+                image_filename = os.path.join(output_dir, f"slide_{slide_number}.jpg")
             
             # Download the image
             img_response = requests.get(image_url)
@@ -94,18 +97,23 @@ def download_images_and_captions(story_id):
             else:
                 print(f"Failed to download image: {image_url}")
                 
-            # Format and save caption text in the required format
-            formatted_text = f"""== File info ==
+            # Only create caption text file if a caption exists
+            if caption:
+                text_filename = os.path.join(output_dir, f"{filename_base}.txt")
+                # Format and save caption text in the required format
+                formatted_text = f"""== File info ==
 {{{{cs
 | caption = {caption}
 | source = {{{{bwn|{story_id}}}}}
 }}}}
 ==File license==
 {{{{Baha'i World News Service}}}}"""
-            
-            with open(text_filename, "w", encoding="utf-8") as text_file:
-                text_file.write(formatted_text)
-            print(f"Saved caption: {text_filename}")
+                
+                with open(text_filename, "w", encoding="utf-8") as text_file:
+                    text_file.write(formatted_text)
+                print(f"Saved caption: {text_filename}")
+            else:
+                print(f"No caption for slide {slide_number} of article {story_id}")
             
             slide_number += 1
             time.sleep(15)  # 15 second delay between fetching images
