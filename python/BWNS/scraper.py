@@ -1,7 +1,5 @@
 r"""
-This script is in progress, it's not ready to be used yet 
-
-It's purpose is to access a BWNS article, download all the images and associated captions, rename the files
+Script purpose is to access a BWNS article, download all the images and associated captions, rename the files
 using the first few words of the caption, and separately save the caption in a .txt file that follows
 the bahai.media format for automatic importing of images following the download process.
  
