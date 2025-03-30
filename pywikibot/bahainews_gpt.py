@@ -6,7 +6,7 @@ sent to ChatGPT who will make corrections and write them to the wiki.
 The section below after " {"role": "system", "content":..." is where you define
 the prompt that you want ChatGPT to follow while making corrections.
 
-run with: pwb bahainews_gpt -cat:"Baha'i News No 331"
+run with: pwb bahainews_gpt.py -cat:"Baha'i News No 331"
 
 Responsible for edits like this: https://bahai.media/index.php?title=File:Steel_shafts_for_concrete_pillars_of_Kampala_Temple,_1958.jpg&curid=15878&diff=135612&oldid=60149
 
