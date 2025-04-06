@@ -17,13 +17,15 @@ This script was written by ChatGPT also.
 #
 # Distributed under the terms of the MIT license.
 #
+import time
 import requests
 import pywikibot
 from pywikibot import pagegenerators
+from requests.exceptions import RequestException
 
 API_KEY = 'your-chat-gpt-api-key-here'
 
-def get_chatgpt_response(api_key, message):
+def get_chatgpt_response(api_key, message, max_retries=3, retry_delay=30):
     """Interact with ChatGPT API to process text correction or modification."""
     url = "https://api.openai.com/v1/chat/completions"
     headers = {
@@ -38,14 +40,23 @@ def get_chatgpt_response(api_key, message):
         ]
     }
 
-    response = requests.post(url, headers=headers, json=data)
-    
-    if response.status_code == 200:
-        return response.json()['choices'][0]['message']['content']
-    else:
-        print(f"Error: {response.status_code}")
-        print(response.json())
-        return message  # Fallback to original content if API fails
+    for attempt in range(1, max_retries + 1):
+        try:
+            response = requests.post(url, headers=headers, json=data, timeout=30)
+            if response.status_code == 200:
+                return response.json()['choices'][0]['message']['content']
+            else:
+                print(f"API returned status code {response.status_code}: {response.text}")
+                break  # don't retry on bad request or unauthorized
+        except RequestException as e:
+            print(f"Attempt {attempt} failed: {e}")
+            if attempt < max_retries:
+                print(f"Retrying in {retry_delay} seconds...")
+                time.sleep(retry_delay)
+            else:
+                print("Max retries reached. Giving up.")
+
+    return message  # fallback to original text
 
 class ReplaceBot:
     """A bot that processes replacements using ChatGPT."""
