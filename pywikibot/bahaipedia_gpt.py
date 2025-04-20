@@ -6,9 +6,7 @@ sent to ChatGPT who will extract data and write the output to a json file.
 The section below after " {"role": "system", "content":..." is where you define
 the prompt that you want ChatGPT to follow while making corrections.
 
-H:\Projects\Tools\pywikibot
-
-run with: pwb bahaipediagpt -cat:"Biographies"
+run with: pwb bahaipediagpt -cat:Biographies
 or run: pwb bahaipediagpt -page:Peter_Khan
 
 This script was written by ChatGPT also. 
