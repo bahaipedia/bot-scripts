@@ -158,8 +158,8 @@ class ExtractJSONBot:
 
                 json_data = self.extract_json(original_text, page.title())
 
-                # Create a safe filename by replacing spaces and removing special characters
-                filename = re.sub(r'[^\w.-]', '_', page.title().lower()) + ".json"
+                # Use the page title directly for the filename
+                filename = page.title().replace(" ", "_") + ".json"
                 filepath = os.path.join(self.output_dir, filename)
                 with open(filepath, "w", encoding="utf-8") as f:
                     json.dump(json_data, f, indent=2, ensure_ascii=False)
