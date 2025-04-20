@@ -47,6 +47,7 @@ def get_chatgpt_response(api_key, message, max_retries=3, retry_delay=30):
                     "Even if the article doesn't have a template, you should analyze the full text carefully and infer data when appropriate. "
                     "Do not guess—only include fields that are clearly supported by the text, either explicitly or by strong implication.\n\n"
                     "Your output must be a single valid JSON object and contain only the following keys if relevant:\n"
+                    "- image (first image file listed if multiple exist)\n"
                     "- birth_name (Source page specifcally mentions a different birth name)\n"
                     "- birth_date\n"
                     "- birth_place\n"
