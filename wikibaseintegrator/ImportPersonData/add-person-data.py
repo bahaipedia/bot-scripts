@@ -40,7 +40,7 @@ except ImportError:
 # Update with your bot's credentials and Wikibase URL
 wbi_config['MEDIAWIKI_API_URL'] = 'https://bahaidata.org/api.php'
 wbi_config['USER_AGENT'] = 'MyWikibaseBot/1.0 (https://bahaidata.org/User:YOUR_USERNAME)'
-login_instance = wbi_login.Clientlogin(user='Sarah', password='YOUR_PASSWORD')
+login_instance = wbi_login.Clientlogin(user='YOUR_USERNAME', password='YOUR_PASSWORD')
 wbi = WikibaseIntegrator(login=login_instance)
 
 MAX_POSITIONS = 7 # Maximum number of position columns to check
